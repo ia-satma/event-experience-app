@@ -1,27 +1,25 @@
-import { db } from "@/db";
-import { events } from "@/db/schema";
+"use server";
+
+import { db } from "@/lib/db";
+import { events } from "@/lib/schema";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
-export const eventSchema = z.object({
-    name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
-    description: z.string().optional(),
-    location: z.string().optional(),
-    date: z.string().or(z.date()),
-});
+import { eventSchema } from "./schema";
 
-export async function createEventAction(data: z.infer<typeof eventSchema>) {
+export async function createEvent(data: z.infer<typeof eventSchema>) {
     const validated = eventSchema.parse(data);
 
     await db.insert(events).values({
         name: validated.name,
-        description: validated.description,
-        location: validated.location,
         date: new Date(validated.date),
+        location: validated.location,
+        slug: validated.slug,
     });
 
-    // revalidatePath("/events"); // Only for Next.js
+    revalidatePath("/dashboard/events");
 }
 
-export async function getEventsAction() {
+export async function getEvents() {
     return await db.select().from(events).orderBy(events.date);
 }
