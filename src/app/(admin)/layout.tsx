@@ -56,6 +56,17 @@ export default async function AdminLayout({
             <main className="flex-1 container py-8">
                 {children}
             </main>
+            <footer className="border-t py-4 bg-muted/20">
+                <div className="container flex flex-col items-center justify-between gap-2 md:flex-row">
+                    <p className="text-xs text-muted-foreground flex items-center gap-2">
+                        <span className="font-mono bg-primary/10 px-2 py-0.5 rounded text-primary border border-primary/20">α-antigravity-v1</span>
+                        <span>Build: {new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })}</span>
+                    </p>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">
+                        Project State: Golden Stack + FSD-Lite
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 }
