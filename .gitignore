@@ -25,6 +25,8 @@ dist-ssr
 *.sw?
 
 .env
+.next/
+out/
 **/agent-eval-report*
 packages
 pids
