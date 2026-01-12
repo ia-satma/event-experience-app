@@ -1,4 +1,15 @@
 import { z } from "zod";
+import { pgTable, uuid, text, timestamp } from "drizzle-orm/pg-core";
+
+export const events = pgTable("events", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    name: text("name").notNull(),
+    date: timestamp("date").notNull(),
+    location: text("location"),
+    slug: text("slug").notNull().unique(),
+    status: text("status").notNull().default("draft"),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+});
 
 export const eventSchema = z.object({
     name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),

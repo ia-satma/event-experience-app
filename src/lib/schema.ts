@@ -1,4 +1,7 @@
 import { pgTable, uuid, text, timestamp, pgEnum, uniqueIndex } from "drizzle-orm/pg-core";
+import { events } from "@/features/events/schema";
+
+export { events } from "@/features/events/schema";
 
 export const attendeeStatusEnum = pgEnum("attendee_status", ["registered", "checked_in"]);
 
@@ -6,15 +9,6 @@ export const users = pgTable("users", {
     id: uuid("id").primaryKey().defaultRandom(),
     email: text("email").notNull().unique(),
     name: text("name"),
-});
-
-export const events = pgTable("events", {
-    id: uuid("id").primaryKey().defaultRandom(),
-    name: text("name").notNull(),
-    date: timestamp("date").notNull(),
-    location: text("location"),
-    slug: text("slug").notNull().unique(),
-    createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 export const attendees = pgTable("attendees", {

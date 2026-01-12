@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { events } from "@/lib/schema";
+import { events } from "./schema";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
@@ -15,9 +15,10 @@ export async function createEvent(data: z.infer<typeof eventSchema>) {
         date: new Date(validated.date),
         location: validated.location,
         slug: validated.slug,
+        status: "draft",
     });
 
-    revalidatePath("/dashboard/events");
+    revalidatePath("/events");
 }
 
 export async function getEvents() {
